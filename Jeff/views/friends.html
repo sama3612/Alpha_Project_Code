@@ -1,0 +1,72 @@
+<!-- Created by Jeffrey Colgan March 18, 2020. Skeleton Freinds page for group project CSCI 3308. -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Friends Page</title>
+
+    <link rel="stylesheet" href="../styles/boilerplate.css">
+
+    <!-- Bootstrap external stylesheets -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="../scripts/email_validator.js"></script>
+    
+  </head>
+  <body>
+    <div class="table-responsive">
+      <table class="table">
+	<tr><th>First Name</th>
+	  <th>Last Name</th>
+	  <th>Link to schedule</th>
+	</tr>
+
+	<!-- Insert code to populate freind list from database here. -->
+	<td></td>
+	<td></td>
+	<td></td>	
+      </table>
+    </div>
+    <a href="#freindModal" class="btn btn-info" data-toggle="modal" onclick="openInput()">Add New Freind</a>
+
+    <div id="freindModal" class="modal fade">
+      <div class="modal-dialog modal-login">
+	<div class="modal-content">
+	  <div class="modal-header">
+	    <h4 class="modal-title">Friend Information</h4>
+	    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	  </div>
+	  <div class="modal-body">
+	    <div class="form-group">
+	      <input type="text" class="form-control" name="first_name" placeholder="First Name" required="required">
+	    </div>
+	    <div class="form-group">
+	      <input type="text" class="form-control" name="last_name" placeholder="Last Name" required="required">
+	    </div>
+	    <div class="form-group">
+	      <input id="input_email" type="text" class="form-control" name="email" placeholder="Email Address" required="required">
+	    </div>
+	    <div class="form-group">
+	      <button id="freind_request" class="btn btn-primary btn-block login-btn" onclick="alertMessage()" disabled>Send Request</button>
+	      <!-- Insert code to send a freind request to the account corresponding to the entered information here. -->
+	    </div>	    
+	  </div>
+	  <div class="modal-footer">
+	    <div id="message" style="display:block">
+	      <h3>Please enter a valid email</h3>
+	      <p id="containsAt" class="invalid">Must contain address followed by @ symbol</p>
+	      <p id="validDomain" class="invalid">Must be a valid domain (some string followed by ".com", ".net" or ".edu")</p>
+	    </div>
+	  </div>
+	</div>
+      </div>
+    </div>
+  </body>
+  
+</html>
