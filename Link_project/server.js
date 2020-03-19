@@ -95,6 +95,12 @@ app.get('/friends', function(req, res) {
    });
 });
 
+app.get('/addfriends', function(req, res) {
+	res.render('pages/addfriends',{
+		my_title:"Add Friends"
+	});
+});
+
 // login page
 app.get('/login', function(req, res) {
 	res.render('pages/login',{
