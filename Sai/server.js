@@ -84,7 +84,8 @@ app.use(express.static(__dirname + '/'));//This line is necessary for us to use 
 app.get('/login', function(req, res) {
 	res.render('pages/login',{
 		local_css:"signin.css", 
-		my_title:"Login Page"
+    my_title:"Login Page",
+    big_failure: 0
 	});
 });
 
@@ -100,22 +101,47 @@ function validUser() {
 }
 
 // signup
-app.get('/login/signin', function(req, res) {
+app.post('/login/signin', function(req, res) {
   var inputEmail = req.body.inputEmail;
   var inputPassword =  req.body.inputPassword;
-  var query = 'select count(*) from user_info where email='+inputEmail+';';
+  var query = 'select * from user_info where email=\''+inputEmail+'\';';
   db.any(query)
       .then(function (rows) {
-          console.log(rows.length);
-          res.render('pages/home',{
-            data:rows
-          })
+          if(rows[0]){
+            if(rows[0].password==inputPassword) {
+              console.log("Authenticated..");
+              res.render('pages/home',{
+                my_title: 'Home Page',
+                data: '',
+                color: '',
+                color_msg: '',
+                data:rows
+              })
+            } else {
+              console.log("Failed, got:" + inputPassword + ", expected:" + rows[0].password);
+              res.render('pages/login',{
+                local_css:"signin.css", 
+                my_title:"Login Page",
+                big_failure: 1
+              });
+            }
+          } else {
+            console.log("No user with those credentials");
+              res.render('pages/login',{
+                local_css:"signin.css", 
+                my_title:"Login Page",
+                big_failure: 2,
+              });
+          }
       })
       .catch(function (err) {
           // display error message in case an error
           console.log('error', err);
           res.render('pages/home',{
-        my_title: "error"
+            my_title: "error",
+            data: '',
+            color: '',
+            color_msg: ''
       })
   })
   
