@@ -80,6 +80,20 @@ app.use(express.static(__dirname + '/'));//This line is necessary for us to use 
   			Next it will pass this result to the player_info view (pages/player_info), which will use the ids & names to populate the select tag for a form
 ************************************/
 
+// registration page
+app.get('/register', function(req, res) {
+	res.render('pages/register',{
+		my_title:"Registration Page"
+	});
+});
+
+//Friends page
+app.get('/friends', function(req, res) {
+   res.render('pages/friends',{
+      my_title:"Friends Page"
+   });
+});
+
 // login page
 app.get('/login', function(req, res) {
 	res.render('pages/login',{
@@ -89,22 +103,9 @@ app.get('/login', function(req, res) {
 	});
 });
 
-// registration page
-app.get('/register', function(req, res) {
-	res.render('pages/register',{
-		my_title:"Registration Page"
-	});
-});
-
 function validUser() {
   return true;
 }
-
-app.get('/friends', function(req, res) {
-   res.render('pages/friends',{
-      my_title:"Friends Page"
-   });
-});
 
 // signup
 app.post('/login/signin', function(req, res) {
@@ -150,203 +151,13 @@ app.post('/login/signin', function(req, res) {
             color_msg: ''
       })
   })
-
-
-  // if(validUser()) {
-  //   console.log('success...well kinds');
-  //           res.render('pages/home', {
-  //               my_title: 'Home Page',
-  //               data: '',
-  //               color: '',
-  //               color_msg: ''
-  //           })
-  // } else {
-  //   console.log('error');
-  //     res.render('pages/home', {
-  //         my_title: 'Home Page',
-  //         data: '',
-  //         color: '',
-  //         color_msg: ''
-  //     })
-  // }
 });
 
-/*Add your other get/post request handlers below here: */
+//get Home
 app.get('/home', function(req, res) {
-  var query = 'select * from favorite_colors;';
-  db.any(query)
-        .then(function (rows) {
-            res.render('pages/home',{
-        my_title: "Home Page",
-        data: rows,
-        color: '',
-        color_msg: ''
-      })
-        })
-        .catch(function (err) {
-            // display error message in case an error
-            console.log('error', err);
-            response.render('pages/home', {
-                title: 'Home Page',
-                data: '',
-                color: '',
-                color_msg: ''
-            })
-        })
-});
-
-app.get('/home/pick_color', function(req, res) {
-  var color_choice = req.query.color_selection;
-  var color_options =  'select * from favorite_colors;';
-  var color_message = "select color_msg from favorite_colors where hex_value = '" + color_choice + "';";
-  db.task('get-everything', task => {
-        return task.batch([
-            task.any(color_options),
-            task.any(color_message)
-        ]);
-    })
-    .then(info => {
-      res.render('pages/home',{
-        my_title: "Home Page",
-        data: info[0],
-        color: color_choice,
-        color_msg: info[1][0].color_msg
-      })
-    })
-    .catch(err => {
-        // display error message in case an error
-            console.log('error', err);
-            response.render('pages/home', {
-                title: 'Home Page',
-                data: '',
-                color: '',
-                color_msg: ''
-            })
-    });
-
-});
-
-app.post('/home/pick_color', function(req, res) {
-  var color_hex = req.body.color_hex;
-  var color_name = req.body.color_name;
-  var color_message = req.body.color_message;
-  var insert_statement = "INSERT INTO favorite_colors(hex_value, name, color_msg) VALUES('" + color_hex + "','" +
-              color_name + "','" + color_message +"') ON CONFLICT DO NOTHING;";
-
-  var color_select = 'select * from favorite_colors;';
-  db.task('get-everything', task => {
-        return task.batch([
-            task.any(insert_statement),
-            task.any(color_select)
-        ]);
-    })
-    .then(info => {
-      res.render('pages/home',{
-        my_title: "Home Page",
-        data: info[1],
-        color: color_hex,
-        color_msg: color_message
-      })
-    })
-    .catch(err => {
-        // display error message in case an error
-            console.log('error', err);
-            response.render('pages/home', {
-                title: 'Home Page',
-                data: '',
-                color: '',
-                color_msg: ''
-            })
-    });
-});
-
-app.get('/team_stats', function(req, res) {
-  var query1 = 'select visitor_name,visitor_score,home_score,to_char(game_date,\'MM/DD/YYYY\') as game_date from football_games;';
-  var query2 = 'select count(*) from football_games where home_score > visitor_score;';
-  var query3 = 'select count(*) from football_games where home_score < visitor_score;';
-  db.task('get-everything', task => {
-      return task.batch([
-          task.any(query1),
-          task.any(query2),
-          task.any(query3)
-      ]);
+  res.render('pages/home',{
+    my_title: "Home Page"
   })
-  .then(data => {
-    res.render('pages/team_stats',{
-        my_title: "Team Stats",
-        result_1: data[0],
-        result_2: data[1],
-        result_3: data[2]
-      })
-  })
-  .catch(err => {
-      // display error message in case an error
-          console.log('error', err);
-          res.render('pages/team_stats',{
-        my_title: "Error",
-        result_1: '',
-        result_2: '',
-        result_3: ''
-      })
-  });
-});
-
-app.get('/player_info', function(req, res) {
-   var query = 'select id,name from football_players;';
-    db.any(query)
-        .then(function (rows) {
-            res.render('pages/player_info',{
-          my_title: "Player Info",
-          player_id: -1,
-          result_2: '',
-          result_3: '',
-          data: rows
-        })
-      })
-      .catch(function (err) {
-          // display error message in case an error
-          console.log('error', err);
-          res.render('pages/player_info',{
-        my_title: "Player Info",
-        data: '',
-        player_id: -1
-      })
-    })
-});
-
-app.get('/player_info/select_player', function(req, res) {
-  var playerId = req.url.substring(req.url.indexOf("player_choice=") + "player_choice=".length);
-  var query1 = 'select id,name from football_players;';
-  var query2 = 'select * from football_players where id='+playerId.toString()+';';
-  var query3 = 'select (select count(*) from football_games inner join football_players on football_players.id in (football_games.players[5],football_games.players[1],football_games.players[2],football_games.players[3],football_games.players[4])= True where football_players.id='+playerId.toString()+');';
-  db.task('get-everything', task => {
-      return task.batch([
-          task.any(query1),
-          task.any(query2),
-          task.any(query3)
-      ]);
-  })
-  .then(data => {
-    res.render('pages/player_info',{
-        my_title: "Player Info",
-        player_id: playerId,
-        data: data[0],
-        result_2: data[1],
-        result_3: data[2]
-      })
-  })
-  .catch(err => {
-      // display error message in case an error
-          console.log('error', err);
-          res.render('pages/player_info',{
-        my_title: "Error",
-        player_id: -1,
-        result_1: '',
-        result_2: '',
-        result_3: '',
-        data: 0
-      })
-  });
 });
 
 app.listen(3000);
