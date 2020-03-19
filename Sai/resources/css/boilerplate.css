@@ -1,0 +1,24 @@
+h1{
+    background-color : #32a852;
+    text-color : 1c211d;
+}
+
+.valid{
+    color: green;
+}
+
+.valid:before{
+    position: relative;
+    left: -35px;
+    content: '\2713';
+}
+
+.invalid{
+    color: red;
+}
+
+.invalid:before{
+    position: relative;
+    left: -35px;
+    content: '\00D7';
+}

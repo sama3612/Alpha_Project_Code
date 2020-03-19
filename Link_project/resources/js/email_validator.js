@@ -44,7 +44,7 @@ function openInput(){
  *  Function to enable the freind_request button once the email address has been validated.
  */
 function enableRequest(symbol, domain){
-    var button = document.getElementById("freind_request");
+    var button = document.getElementById("friend_request");
     
     if(!symbol.classList.contains("invalid") && !domain.classList.contains("invalid")){
 	button.disabled = false;
