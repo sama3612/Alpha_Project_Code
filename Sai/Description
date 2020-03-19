@@ -3,7 +3,7 @@ Here is a pretty much blank file for Sai. Here is where I will be doing my initi
 
 Commit1:
 
-Modeled the webpage heirarchy after the Lab7 that we completed.
+Modeled the webpage hierarchy after the Lab7 that we completed.
 Based off of Jeff's code, I created the ejs files that are easier to extend to other pages
 
 Important notes for cloning this repo:
