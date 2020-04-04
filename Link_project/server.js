@@ -13,6 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 //Create Database Connection
 var pgp = require('pg-promise')();
+var user_id = '';
 
 /**********************
   Database Connection information
@@ -89,10 +90,35 @@ app.get('/register', function(req, res) {
 
 //Friends page
 app.get('/friends', function(req, res) {
-   res.render('pages/friends',{
-      local_css:"boilerplate.css",
-      my_title:"Friends Page"
-   });
+	var friends = 'select friends from users where user_id=' + parseInt(user_id) + ';';
+	var fn=[];
+	var ln=[];
+	//console.log(friends);
+	db.any(friends)
+   	.then(function (rows) {
+		//	console.log(rows);
+			for (var i=0; i < rows[0].friends.length; i++)
+			{
+				// console.log('select * from users where user_id=' + parseInt(rows[0].friends[i]) + ';');
+				db.any('select * from users where user_id=' + parseInt(rows[0].friends[i]) + ';')
+					.then(function (rows1) {
+						if (typeof rows1[0] !== 'undefined')
+						{
+
+							//console.log(rows1[0].first_name + rows1[0].last_name);
+							fn.push(rows1[0].first_name);
+							ln.push(rows1[0].last_name);
+						}
+					})
+
+			}
+
+			res.render('pages/friends',{
+		      local_css:"boilerplate.css",
+		      my_title:"Friends Page",
+				data: fn
+			})
+		})
 });
 
 app.get('/addfriends', function(req, res) {
@@ -105,8 +131,8 @@ app.get('/addfriends', function(req, res) {
 app.get('/login', function(req, res) {
 	res.render('pages/login',{
 		local_css:"signin.css",
-    my_title:"Login Page",
-    big_failure: 0
+	    my_title:"Login Page",
+	    big_failure: 0
 	});
 });
 
@@ -118,11 +144,13 @@ function validUser() {
 app.post('/login/signin', function(req, res) {
   var inputEmail = req.body.inputEmail;
   var inputPassword =  req.body.inputPassword;
-  var query = 'select * from user_info where email=\''+inputEmail+'\';';
+  var query = 'select * from users where email=\''+inputEmail+'\';';
   db.any(query)
-      .then(function (rows) {
+  		.then(function (rows) {
+			console.log(rows);
           if(rows[0]){
             if(rows[0].password==inputPassword) {
+				 	user_id = rows[0].user_id;
               console.log("Authenticated..");
               res.render('pages/home',{
                 my_title: 'Home Page',
@@ -131,7 +159,8 @@ app.post('/login/signin', function(req, res) {
                 color_msg: '',
                 data:rows
               })
-            } else {
+            }
+				else {
               console.log("Failed, got:" + inputPassword + ", expected:" + rows[0].password);
               res.render('pages/login',{
                 local_css:"signin.css",
@@ -139,7 +168,8 @@ app.post('/login/signin', function(req, res) {
                 big_failure: 1
               });
             }
-          } else {
+          }
+			 else {
             console.log("No user with those credentials");
               res.render('pages/login',{
                 local_css:"signin.css",
@@ -156,8 +186,8 @@ app.post('/login/signin', function(req, res) {
             data: '',
             color: '',
             color_msg: ''
-      })
-  })
+      	 })
+  		})
 });
 
 //get Home
