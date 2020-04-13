@@ -84,9 +84,7 @@ app.use(express.static(__dirname + '/'));//This line is necessary for us to use 
 // registration page
 app.get('/register', function(req, res) {
 	res.render('pages/register',{
-		local_css:"signin.css",
-	    my_title:"Registration Page",
-	    big_failure: 0
+		my_title:"Registration Page"
 	});
 });
 
@@ -142,7 +140,7 @@ function validUser() {
   return true;
 }
 
-// signin
+// signup
 app.post('/login/signin', function(req, res) {
   var inputEmail = req.body.inputEmail;
   var inputPassword =  req.body.inputPassword;
@@ -191,57 +189,6 @@ app.post('/login/signin', function(req, res) {
       	 })
   		})
 });
-
-function validUserForCreation(fName,lName,email,password,cPassword) {
-	if(password != cPassword) {//case 1
-		return 1;
-	}
-	//check everything else
-	return 0;
-}
-
-//register signup
-app.post('/register/signup', function(req, res) {
-	var firstName = req.body.firstName;
-	var lastName = req.body.lastName;
-	var inputEmail = req.body.inputEmail;
-	var inputPassword =  req.body.inputPassword;
-	var inputCPassword = req.body.inputCPassword;
-	var validUser = validUserForCreation(firstName, lastName, inputEmail, inputPassword, inputCPassword);
-	
-	if(validUser == 1) {//looks like it failed...
-		res.render('pages/register',{
-			local_css:"signin.css",
-			my_title:"Registration Page",
-			big_failure: 1
-		});
-	}
-	
-	var query = 'insert into users (first_name, last_name, email, password)'
-	+ 'values (\''+ firstName + '\', \''+ lastName + '\', \''+ inputEmail + '\', \''+ inputPassword + '\');';
-
-	db.any(query)
-		.then(function (rows) {
-			console.log("Authenticated..");
-              res.render('pages/home',{
-                my_title: 'Home Page',
-                data: '',
-                color: '',
-                color_msg: '',
-                data:rows
-              })
-	})
-	.catch(function (err) {
-		// display error message in case an error
-		console.log('error', err);
-		res.render('pages/home',{
-			my_title: "error",
-			data: '',
-			color: '',
-			color_msg: ''
-			})
-		})
-  });
 
 //get Home
 app.get('/home', function(req, res) {
