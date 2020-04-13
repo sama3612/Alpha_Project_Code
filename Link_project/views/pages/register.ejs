@@ -1,0 +1,53 @@
+<!--
+This page was from Lab7
+-->
+<% include ../partials/header %>
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+      }
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+	</style>
+	<div class="container" >
+		<form class="form-signin" action="/register/signup" method="post">
+			<img class="rounded-circle" src="https://previews.123rf.com/images/auttkhamkhauncham/auttkhamkhauncham1505/auttkhamkhauncham150500298/40257882-chain-link-symbol.jpg" alt="" width="72" height="72">
+			<h1 class="h3 mb-3 font-weight-normal">Please register</h1>
+			<label for="inputFirstName" class="sr-only">First Name</label>
+			<input type="firstName" name="firstName" id="firstName" class="form-control" placeholder="First name" required autofocus>
+			<label for="lastName" class="sr-only">Last Name</label>
+			<input type="lastName" name="lastName" id="lastName" class="form-control" placeholder="Last name" required autofocus>
+			<label for="inputEmail" class="sr-only">Email address</label>
+			<input type="email" name="inputEmail" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+			<label for="inputPassword" class="sr-only">Password</label>
+			<input type="password" name="inputPassword" id="inputPassword" class="form-control" placeholder="Password" required>
+			<label for="inputCPassword" class="sr-only">Confirm Password</label>
+			<input type="password" name="inputCPassword" id="inputCPassword" class="form-control" placeholder="Confirm password" required>
+			<button class="btn btn-lg btn-primary" type="submit">Register</button>
+			<%
+			  var failure_alert = '';
+			  if (big_failure==1) {
+				console.log('passwords dont match');
+				   failure_alert = '<script>window.alert("Passwords dont match");</script>';
+			   } else if (big_failure==2) {
+				   failure_alert = '<script>window.alert("No such user has been created");</script>';
+			   }
+			  %>
+		  <%- failure_alert %>
+		  </form>
+	</div>
+	<!-- Because we now use partials for our header, we can't directly add Boostrap Classes to our Body tag.
+		 Below is a "work-around" to apply the Bootstrap classes when the page loads
+	 -->
+	<script type="text/javascript">
+        function addCSSToBody() {
+            document.body.classlist.add("center");
+            document.body.classlist.add("text-center");
+        }
+		window.onload = addCSSToBody;
+	</script>
+<% include ../partials/footer %> 
