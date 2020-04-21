@@ -1,72 +1,28 @@
-<% include ../partials/header %>
-<% include ../partials/menu %>
+<%- include ../partials/header %>
+<%- include ../partials/menu %>
 	<div class="container">
 		<br>
 		<br>
 		<div class="table-responsive">
-            <table class="table" action="/friends" method="get">
+            <table class="table">
           <tr><th>First Name</th>
             <th>Last Name</th>
             <th>Link to schedule</th>
           </tr>
 
-          <!-- Insert code to populate friend list from database here. -->
-			 <% if (data) {
-				 	var i;
-					var friends = '';
-					console.log('check--');
-					console.log(data);
-					data.forEach(function(item){
-						item.forEach(function(item2){
-							console.log("--->"+item2);
-						})
-					});
-					// for (i = 0; i < data[0].length; i++) {
-					//   //var friend = 'select * from users where user_id = "' + data[i] + '";';
-					//   friends += '<tr><td>' + data[0][i] + '</td>';
-				  	// friends += '<td>' + data[1][i] + '</td>';
-				  	// friends += '</tr>';
-					//   console.log(data[0][i]);
-					//
-					// } %>
-				  <%- friends %>
-			 <% } %>
+	  <% if (data) {
+	      	 var friend_rows = '';
+		 data.forEach(function(item){
+			friend_rows += '<tr><td>' + item.first_name + '</td>';
+			friend_rows += '<td>' + item.last_name + '</td>';
+			friend_rows += '<td>' + '</td>';
+			});%>
+	  <%- friend_rows %>
+	  <% } %>
+          
             </table>
           </div>
-          <a href="#friendModal" class="btn btn-info" data-toggle="modal" onclick="openInput()">Add New Friend</a>
-
-          <div id="friendModal" class="modal fade">
-            <div class="modal-dialog modal-login">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Friend Information</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            </div>
-            <div class="modal-body">
-              <div class="form-group">
-                <input type="text" class="form-control" name="first_name" placeholder="First Name" required="required">
-              </div>
-              <div class="form-group">
-                <input type="text" class="form-control" name="last_name" placeholder="Last Name" required="required">
-              </div>
-              <div class="form-group">
-                <input id="input_email" type="text" class="form-control" name="email" placeholder="Email Address" required="required">
-              </div>
-              <div class="form-group">
-                <button id="friend_request" class="btn btn-primary btn-block login-btn" onclick="alertMessage()" disabled>Send Request</button>
-                <!-- Insert code to send a friend request to the account corresponding to the entered information here. -->
-              </div>
-            </div>
-            <div class="modal-footer">
-              <div id="message" style="display:block">
-                <h3>Please enter a valid email</h3>
-                <p id="containsAt" class="invalid">Must contain address followed by @ symbol</p>
-                <p id="validDomain" class="invalid">Must be a valid domain (some string followed by ".com", ".net" or ".edu")</p>
-              </div>
-            </div>
-          </div>
-            </div>
-          </div>
-	</div>
+          <a href="/addFriends" class="btn btn-lg btn-primary">Add Friend</a>
+	  <p class="mt-5 mb-3 text-muted">&copy; 2020</p>
 
 <% include ../partials/footer %>

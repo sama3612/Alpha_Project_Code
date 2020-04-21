@@ -13,7 +13,6 @@ app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 //Create Database Connection
 var pgp = require('pg-promise')();
-var user_id = '';
 
 /**********************
   Database Connection information
@@ -50,7 +49,7 @@ app.use(express.static(__dirname + '/'));//This line is necessary for us to use 
   Login Page:        Provided For your (can ignore this page)
   Registration Page: Provided For your (can ignore this page)
   Home Page:
-  		/home - get request (no parameters)
+  		/home - get request (no parameters) 
   				This route will make a single query to the favorite_colors table to retrieve all of the rows of colors
   				This data will be passed to the home view (pages/home)
 
@@ -73,68 +72,29 @@ app.use(express.static(__dirname + '/'));//This line is necessary for us to use 
   				2. Count the number of winning games in the Fall 2018 Season
   				3. Count the number of lossing games in the Fall 2018 Season
   			The three query results will then be passed onto the team_stats view (pages/team_stats).
-  			The team_stats view will display all fo the football games for the season, show who won each game,
+  			The team_stats view will display all fo the football games for the season, show who won each game, 
   			and show the total number of wins/losses for the season.
 
   		/player_info - get request (no parameters)
   			This route will handle a single query to the football_players table which will retrieve the id & name for all of the football players.
-  			Next it will pass this result to the player_info view (pages/player_info), which will use the ids & names to populate the select tag for a form
+  			Next it will pass this result to the player_info view (pages/player_info), which will use the ids & names to populate the select tag for a form 
 ************************************/
 
-// registration page
-app.get('/register', function(req, res) {
-	res.render('pages/register',{
-		local_css:"signin.css",
-	    my_title:"Registration Page",
-	    big_failure: 0
-	});
-});
+var inputEmail = '';
 
-//Friends page
-app.get('/friends', function(req, res) {
-	var friends = 'select friends from users where user_id=' + parseInt(user_id) + ';';
-	var fn=[];
-	var ln=[];
-	//console.log(friends);
-	db.any(friends)
-   	.then(function (rows) {
-		//	console.log(rows);
-			for (var i=0; i < rows[0].friends.length; i++)
-			{
-				// console.log('select * from users where user_id=' + parseInt(rows[0].friends[i]) + ';');
-				db.any('select * from users where user_id=' + parseInt(rows[0].friends[i]) + ';')
-					.then(function (rows1) {
-						if (typeof rows1[0] !== 'undefined')
-						{
-
-							//console.log(rows1[0].first_name + rows1[0].last_name);
-							fn.push(rows1[0].first_name);
-							ln.push(rows1[0].last_name);
-						}
-					})
-
-			}
-
-			res.render('pages/friends',{
-		      local_css:"boilerplate.css",
-		      my_title:"Friends Page",
-				data: fn
-			})
-		})
-});
-
-app.get('/addfriends', function(req, res) {
-	res.render('pages/addfriends',{
-		my_title:"Add Friends"
-	});
-});
-
-// login page
+// login page 
 app.get('/login', function(req, res) {
 	res.render('pages/login',{
-		local_css:"signin.css",
-	    my_title:"Login Page",
-	    big_failure: 0
+		local_css:"signin.css", 
+    my_title:"Login Page",
+    big_failure: 0
+	});
+});
+
+// registration page 
+app.get('/register', function(req, res) {
+	res.render('pages/register',{
+		my_title:"Registration Page"
 	});
 });
 
@@ -144,15 +104,13 @@ function validUser() {
 
 // signin
 app.post('/login/signin', function(req, res) {
-  var inputEmail = req.body.inputEmail;
+  inputEmail = req.body.inputEmail;
   var inputPassword =  req.body.inputPassword;
   var query = 'select * from users where email=\''+inputEmail+'\';';
   db.any(query)
-  		.then(function (rows) {
-			console.log(rows);
+      .then(function (rows) {
           if(rows[0]){
             if(rows[0].password==inputPassword) {
-				 	user_id = rows[0].user_id;
               console.log("Authenticated..");
               res.render('pages/home',{
                 my_title: 'Home Page',
@@ -161,20 +119,18 @@ app.post('/login/signin', function(req, res) {
                 color_msg: '',
                 data:rows
               })
-            }
-				else {
+            } else {
               console.log("Failed, got:" + inputPassword + ", expected:" + rows[0].password);
               res.render('pages/login',{
-                local_css:"signin.css",
+                local_css:"signin.css", 
                 my_title:"Login Page",
                 big_failure: 1
               });
             }
-          }
-			 else {
+          } else {
             console.log("No user with those credentials");
               res.render('pages/login',{
-                local_css:"signin.css",
+                local_css:"signin.css", 
                 my_title:"Login Page",
                 big_failure: 2,
               });
@@ -188,66 +144,64 @@ app.post('/login/signin', function(req, res) {
             data: '',
             color: '',
             color_msg: ''
-      	 })
-  		})
+      })
+  })
 });
 
-function validUserForCreation(fName,lName,email,password,cPassword) {
-	if(password != cPassword) {//case 1
-		return 1;
-	}
-	//check everything else
-	return 0;
-}
-
-//register signup
-app.post('/register/signup', function(req, res) {
-	var firstName = req.body.firstName;
-	var lastName = req.body.lastName;
-	var inputEmail = req.body.inputEmail;
-	var inputPassword =  req.body.inputPassword;
-	var inputCPassword = req.body.inputCPassword;
-	var validUser = validUserForCreation(firstName, lastName, inputEmail, inputPassword, inputCPassword);
-	
-	if(validUser == 1) {//looks like it failed...
-		res.render('pages/register',{
-			local_css:"signin.css",
-			my_title:"Registration Page",
-			big_failure: 1
-		});
-	}
-	
-	var query = 'insert into users (first_name, last_name, email, password)'
-	+ 'values (\''+ firstName + '\', \''+ lastName + '\', \''+ inputEmail + '\', \''+ inputPassword + '\');';
-
-	db.any(query)
-		.then(function (rows) {
-			console.log("Authenticated..");
-              res.render('pages/home',{
-                my_title: 'Home Page',
-                data: '',
-                color: '',
-                color_msg: '',
-                data:rows
-              })
+app.get('/friends', function(req, res) {
+    var friend_query = "select first_name, last_name from users where userid = any(select unnest(friends) from users where email = '" + inputEmail.toString() + "');";
+    db.any(friend_query)
+	.then(function (rows) {
+	    res.render('pages/friends',{
+		my_title: "Friends Page",
+		data: rows,
+		first_name: '',
+		last_name: '',
+		little_failure: 0
+	    })
 	})
-	.catch(function (err) {
-		// display error message in case an error
-		console.log('error', err);
-		res.render('pages/home',{
-			my_title: "error",
-			data: '',
-			color: '',
-			color_msg: ''
-			})
-		})
-  });
+	.catch(function(err) {
+	    console.log(friend_query);
+	    console.log('error', err);
+	    res.render('pages/friends', {
+		my_title: "Friends Page",
+		data: '',
+		first_name: '',
+		last_name: ''
+	    })
+	})
+});
 
-//get Home
-app.get('/home', function(req, res) {
-  res.render('pages/home',{
-    my_title: "Home Page"
-  })
+app.get('/addFriends', function(req, res) {
+    res.render('pages/addFriends',{
+	//local_css:"signin.css",
+	my_title: "Add Friend",
+	little_failure: 0
+    });
+});
+
+app.post('/addFriends/add', function(req, res) {
+    var input_friend = req.body.friendEmail;
+    var query = "update users set friends = array_append(friends, (select userid from users where email = '" + input_friend.toString() + "')) where email = '" + inputEmail.toString() + "';";
+    db.any(query)
+	.then( data => {
+	    if (data) {
+		console.log(query);
+		res.render('pages/addFriends',{
+		    my_title: "Friends Page",
+		    data: '',
+		    little_failure: 0
+		})
+	    }else {
+		console.log(query);
+		console.log("Error adding friend.");
+		res.render('pages/addFriends',{
+		    my_title: "Friends Page",
+		    data: '',
+		    little_failure: 1
+		})
+	    }
+	})
 });
 
 app.listen(3000);
