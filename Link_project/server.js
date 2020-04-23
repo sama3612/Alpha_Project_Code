@@ -258,5 +258,16 @@ app.get('/home', function(req, res) {
   })
 });
 
+app.get('/profile', function(req, res) {
+	var query = "select * from users where email = '" + inputEmail.toString() + "';";
+	db.any(query)
+		.then(function (rows) {
+			res.render('pages/profile',{
+				my_title: "Profile Page",
+				result: rows
+			})
+		})
+});
+
 app.listen(3000);
 console.log('3000 is the magic port');
