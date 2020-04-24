@@ -49,7 +49,7 @@ app.use(express.static(__dirname + '/'));//This line is necessary for us to use 
   Login Page:        Provided For your (can ignore this page)
   Registration Page: Provided For your (can ignore this page)
   Home Page:
-  		/home - get request (no parameters) 
+  		/home - get request (no parameters)
   				This route will make a single query to the favorite_colors table to retrieve all of the rows of colors
   				This data will be passed to the home view (pages/home)
 
@@ -72,26 +72,26 @@ app.use(express.static(__dirname + '/'));//This line is necessary for us to use 
   				2. Count the number of winning games in the Fall 2018 Season
   				3. Count the number of lossing games in the Fall 2018 Season
   			The three query results will then be passed onto the team_stats view (pages/team_stats).
-  			The team_stats view will display all fo the football games for the season, show who won each game, 
+  			The team_stats view will display all fo the football games for the season, show who won each game,
   			and show the total number of wins/losses for the season.
 
   		/player_info - get request (no parameters)
   			This route will handle a single query to the football_players table which will retrieve the id & name for all of the football players.
-  			Next it will pass this result to the player_info view (pages/player_info), which will use the ids & names to populate the select tag for a form 
+  			Next it will pass this result to the player_info view (pages/player_info), which will use the ids & names to populate the select tag for a form
 ************************************/
 
 var inputEmail = '';
 
-// login page 
+// login page
 app.get('/login', function(req, res) {
 	res.render('pages/login',{
-		local_css:"signin.css", 
+		local_css:"signin.css",
     my_title:"Login Page",
     big_failure: 0
 	});
 });
 
-// registration page 
+// registration page
 app.get('/register', function(req, res) {
 	res.render('pages/register',{
 		my_title:"Registration Page"
@@ -122,7 +122,7 @@ app.post('/login/signin', function(req, res) {
             } else {
               console.log("Failed, got:" + inputPassword + ", expected:" + rows[0].password);
               res.render('pages/login',{
-                local_css:"signin.css", 
+                local_css:"signin.css",
                 my_title:"Login Page",
                 big_failure: 1
               });
@@ -130,7 +130,7 @@ app.post('/login/signin', function(req, res) {
           } else {
             console.log("No user with those credentials");
               res.render('pages/login',{
-                local_css:"signin.css", 
+                local_css:"signin.css",
                 my_title:"Login Page",
                 big_failure: 2,
               });
@@ -171,6 +171,24 @@ app.get('/friends', function(req, res) {
 	    })
 	})
 });
+
+app.get('/schedule', function(req, res) {
+	res.render('pages/schedule',{
+		my_title:"Schedule Page"
+	})
+});
+
+app.get('/mySchedule', function(req, res) {
+	res.render('pages/mySchedule',{
+		my_title:"My Schedule"
+	})
+});
+
+app.get('/addSchedule', function(req, res) {
+	res.render('pages/addSchedule',{
+		my_title:"Add Schedule"
+	})
+})
 
 app.get('/addFriends', function(req, res) {
     res.render('pages/addFriends',{

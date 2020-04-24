@@ -1,27 +1,29 @@
 <%- include ../partials/header %>
 <%- include ../partials/menu %>
+	<%
+		function capitalizeNames(name){
+			name = name[0].toUpperCase() + name.slice(1);
+			return name;
+		}
+	%>
 	<div class="container">
 		<br>
 		<br>
 		<div class="table-responsive">
-            <table class="table">
-          <tr><th>First Name</th>
-            <th>Last Name</th>
-            <th>Link to schedule</th>
-          </tr>
+      	<table class="table">
+         	<tr><th>Friends</th></tr>
 
-	  <% if (data) {
-	      	 var friend_rows = '';
-		 data.forEach(function(item){
-			friend_rows += '<tr><td>' + item.first_name + '</td>';
-			friend_rows += '<td>' + item.last_name + '</td>';
-			friend_rows += '<td>' + '</td>';
-			});%>
-	  <%- friend_rows %>
-	  <% } %>
-          
-            </table>
-          </div>
+				  <% if (data) {
+				      	 var friend_rows = '';
+					 data.forEach(function(item){
+						friend_rows += '<tr><td><a href="/schedule">' + capitalizeNames(item.first_name) + " " + capitalizeNames(item.last_name) + '</a></td>';
+						friend_rows += '<td>' + '</td>';
+						});%>
+				  <%- friend_rows %>
+				  <% } %>
+
+         </table>
+      </div>
           <a href="/addFriends" class="btn btn-lg btn-primary">Add Friend</a>
 	  <p class="mt-5 mb-3 text-muted">&copy; 2020</p>
 

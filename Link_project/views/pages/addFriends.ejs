@@ -1,11 +1,12 @@
 <%- include ../partials/header %>
 <%- include ../partials/menu %>
 
+<div class="container">
 <form class="form-signin" action="addFriends/add" method="post">
 <img class="rounded-circle" src="https://previews.123rf.com/images/auttkhamkhauncham/auttkhamkhauncham1505/auttkhamkhauncham150500298/40257882-chain-link-symbol.jpg" alt="" width="72" height="72">
 <h1 class="h3 mb-3 font-weight-normal">Please Type Your Friend's Email:</h1>
 <label for="friendEmail" class="sr-only">Email Address</label>
-<input type="email" name="friendEmail" id="friendEmail" class="form-control" placeholder="Email Address" required autofocus>
+<input type="email" name="friendEmail" id="friendEmail" class="form-control" placeholder="Email Address" required autofocus><br>
 <button class="btn btn-lg btn-primary" type="submit">Send Request</button>
 <p class="mt-5 mb-3 text-muted">&copy; 2020</p>
 <%
@@ -13,7 +14,7 @@
 		if (little_failure==1) {
 			message = '<script>window.alert("Sorry, but we could not find that user.  Make sure that the email address is spelled correctly, and try again!");</script>';
 		} else  {
-			message = '<script>window.alert("A friend request has been sent, and the user has been added to your friend list.  Please navigate back to the friend page, or add another friend!");</sc				ript>';
+			message = '<script>window.alert("A friend request has been sent, and the user has been added to your friend list. Please navigate back to the friend page, or add another friend!");</script>';
 		}
 		%>
 </form>
@@ -23,5 +24,5 @@
             document.body.classlist.add("text-center");
         }
 		window.onload = addCSSToBody;
-	</script>
+</script>
 <%- include ../partials/footer %>
