@@ -84,12 +84,6 @@ app.get('/login', function(req, res) {
 	});
 });
 
-// registration page
-app.get('/register', function(req, res) {
-	res.render('pages/register',{
-		my_title:"Registration Page"
-	});
-});
 
 function validUser() {
   return true;
@@ -173,24 +167,6 @@ app.get('/friends', function(req, res) {
 	    })
 	})
 });
-
-app.get('/schedule', function(req, res) {
-	res.render('pages/schedule',{
-		my_title:"Schedule Page"
-	})
-});
-
-app.get('/mySchedule', function(req, res) {
-	res.render('pages/mySchedule',{
-		my_title:"My Schedule"
-	})
-});
-
-app.get('/addSchedule', function(req, res) {
-	res.render('pages/addSchedule',{
-		my_title:"Add Schedule"
-	})
-})
 
 app.get('/addFriends', function(req, res) {
     res.render('pages/addFriends',{
@@ -292,6 +268,29 @@ app.get('/profile', function(req, res) {
 			})
 		})
 });
+
+app.get('/schedule', function(req, res) {
+	res.render('pages/schedule',{
+		my_title:"Schedule Page"
+	})
+});
+
+app.get('/mySchedule', function(req, res) {
+	var query = "select image_url from users where email = '" + inputEmail.toString() + "';";
+	db.any(query)
+		.then(function (rows) {
+			res.render('pages/mySchedule',{
+				my_title:"My Schedule",
+				result: rows
+			})
+		})
+});
+
+app.get('/addSchedule', function(req, res) {
+	res.render('pages/addSchedule',{
+		my_title:"Add Schedule"
+	})
+})
 
 app.listen(3000);
 console.log('3000 is the magic port');
