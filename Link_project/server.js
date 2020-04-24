@@ -275,7 +275,47 @@ app.get('/schedule', function(req, res) {
 	})
 });
 
+var mySched = '';
+
 app.get('/mySchedule', function(req, res) {
+	var query = "select image_url from users where email = '" + inputEmail.toString() + "';";
+	db.any(query)
+		.then(function (rows) {
+			mySched = rows[0].image_url;
+			res.render('pages/mySchedule',{
+				my_title:"My Schedule",
+				result: rows
+			})
+		})
+});
+
+var friendID = '';
+
+app.post('/mySchedule/friend', function(req, res) {
+    friendID = req.body.friendID.id;
+    var query = "select image_url from users where userID = '" + friendID + "';";;
+    db.any(query)
+	.then( data => {
+	    if (data) {
+		console.log(query);
+		res.render('pages/schedule',{
+			my_title: "Compare Schedules",
+			friendSched: data[0].image_url,
+			mySched: mySched
+		})
+	    }else {
+		console.log(query);
+		console.log("Error displaying friend schedule.");
+		res.render('pages/schedule',{
+			my_title: "Compare Schedule Error",
+			friendSched: '',
+			mySched: ''
+		})
+	    }
+	})
+});
+
+app.get('/mySchedule/wherefriendID=' + friendID, function(req, res) {
 	var query = "select image_url from users where email = '" + inputEmail.toString() + "';";
 	db.any(query)
 		.then(function (rows) {
