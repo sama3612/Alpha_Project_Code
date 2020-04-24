@@ -2,11 +2,23 @@
 <%- include ../partials/menu %>
    <div class="container"><br>
       <div class="row">
-         <div class="col-6">
+         <div class="col-sm-6">
             <h2 class="text-center">Your Schedule</h2>
+            <% if (mySched) {
+                   var mySchedule = '';
+                   mySchedule += '<img class="img-fluid" style="display: inline-block" src="' + mySched + '">';
+            %>
+            <%- mySchedule %>
+            <% } %>
          </div>
-         <div class="col-6">
+         <div class="col-sm-6">
             <h2 class="text-center">Their Schedule</h2>
+            <% if (friendSched) {
+                   var mySchedule = '';
+                   mySchedule += '<img class="img-fluid" style="display: inline-block" src="' + friendSched + '">';
+            %>
+            <%- mySchedule %>
+            <% } %>
          </div>
       </div>
    </div>

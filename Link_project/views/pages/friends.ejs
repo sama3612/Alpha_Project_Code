@@ -16,7 +16,7 @@
 				  <% if (data) {
 				      	 var friend_rows = '';
 					 data.forEach(function(item){
-						friend_rows += '<tr><td><form class="form-signin" action="/mySchedule/friend" method="post"><button class="btn btn-lg btn-primary" name="friendID" id="' + item.userID + '" type="submit">' + capitalizeNames(item.first_name) + " " + capitalizeNames(item.last_name) + '</button></form></td>';
+						friend_rows += '<tr><td><form class="form-signin" action="/mySchedule/friend" method="post"><button class="btn btn-lg btn-primary" name="friendID" value="' + item.userid + '" type="submit">' + capitalizeNames(item.first_name) + " " + capitalizeNames(item.last_name) + '</button></form></td>';
 						friend_rows += '<td>' + '</td>';
 						});%>
 				  <%- friend_rows %>

@@ -145,7 +145,7 @@ app.post('/login/signin', function(req, res) {
 });
 
 app.get('/friends', function(req, res) {
-    var friend_query = "select first_name, last_name from users where userid = any(select unnest(friends) from users where email = '" + inputEmail.toString() + "');";
+    var friend_query = "select userid, first_name, last_name from users where userid = any(select unnest(friends) from users where email = '" + inputEmail.toString() + "');";
     db.any(friend_query)
 	.then(function (rows) {
 	    res.render('pages/friends',{
@@ -292,26 +292,37 @@ app.get('/mySchedule', function(req, res) {
 var friendID = '';
 
 app.post('/mySchedule/friend', function(req, res) {
-    friendID = req.body.friendID.id;
-    var query = "select image_url from users where userID = '" + friendID + "';";;
-    db.any(query)
-	.then( data => {
-	    if (data) {
-		console.log(query);
-		res.render('pages/schedule',{
-			my_title: "Compare Schedules",
-			friendSched: data[0].image_url,
-			mySched: mySched
-		})
-	    }else {
-		console.log(query);
-		console.log("Error displaying friend schedule.");
-		res.render('pages/schedule',{
-			my_title: "Compare Schedule Error",
-			friendSched: '',
-			mySched: ''
-		})
-	    }
+    friendID = req.body.friendID;
+	 console.log("friendID: " + friendID);
+	 var query = "select image_url from users where email = '" + inputEmail.toString() + "';";
+	 var query2 = "select image_url from users where userid = '" + friendID + "';";
+
+	 db.task('get-everything', task => {
+		 return task.batch([
+			 task.any(query),
+			 task.any(query2)
+		 ]);
+	 })
+	.then(data => {
+	   if (data) {
+			console.log(data);
+			mySched = data[0][0].image_url;
+			console.log(query);
+			res.render('pages/schedule',{
+				my_title: "Compare Schedules",
+				friendSched: data[1][0].image_url,
+				mySched: mySched
+			})
+	   }
+		else {
+			console.log(query);
+			console.log("Error displaying friend schedule.");
+			res.render('pages/schedule',{
+				my_title: "Compare Schedule Error",
+				friendSched: '',
+				mySched: ''
+			})
+	   }
 	})
 });
 
