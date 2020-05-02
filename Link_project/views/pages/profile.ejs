@@ -46,6 +46,13 @@
             }
         %>
         
+        <form class="form-signin" action="profile/change" method="post">
+            <h1 class="h3 mb-3 font-weight-normal">To change your profile image, paste an image url below</h1>
+            <label for="img_url" class="sr-only">url</label>
+            <input name="img_url" id="friendEmail" class="form-control" placeholder="img url"><br>
+            <button class="btn btn-lg btn-primary" type="submit">Submit</button>
+        </form>
+
         <div class="card" >
             <img src="<%- img_Src %>" alt="Chosen User Image" style="width:100%">
             <div class="container">

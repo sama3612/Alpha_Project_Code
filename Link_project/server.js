@@ -269,6 +269,32 @@ app.get('/profile', function(req, res) {
 		})
 });
 
+app.post('/profile/change', function(req, res) {
+	var new_img = req.body.img_url;
+
+	var query = "update users set profile_image = '" + new_img + "' where email = '" + inputEmail.toString() + "';";
+
+	db.any(query)
+		.then(function (rows) {
+			console.log(new_img);
+              res.render('pages/home',{
+				my_title: 'Home Page',
+				result:rows
+              })
+	})
+	.catch(function (err) {
+		// display error message in case an error
+		console.log('error', err);
+		res.render('pages/home',{
+			my_title: "error",
+			data: '',
+			color: '',
+			color_msg: ''
+			})
+		})
+  });
+
+
 app.get('/schedule', function(req, res) {
 	res.render('pages/schedule',{
 		my_title:"Schedule Page"
