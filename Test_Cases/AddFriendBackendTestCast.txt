@@ -1,0 +1,7 @@
+Test Case:  Adding friends to backend database directly.
+
+Result:  Success.  When a friend is added to a user's friend array in the backend database directly, the friend page is updated on the
+	 next page load to include the new friend.  There is not any output to this test, because we were manipulating the backend database
+	 directly, and there is no output from the app.
+
+Output:  None.
