@@ -1,0 +1,7 @@
+Test Case:  Add a friend that does not exist in the users database.
+
+Result:  Success, the friend that does not exist is not added to the users friend list.  The page does not fail as a result of adding
+	 a friend that is not in the users table.  There is no error message that is displayed, however.  I recommend that we add some
+         error message to let the user know that they are trying to add a friend that does not have a Link account.
+
+Output:  None.

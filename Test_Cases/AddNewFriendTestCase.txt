@@ -1,0 +1,8 @@
+Test Case:  Add new friend.
+
+Result:  New friends were able to be added when logged in as every current user in the user table.  If a second friend is added without navigating back to the friends page,
+         the page will fail and the second friend will not be added.  In further iteration, we need to investigate the issue and determine how to add multiple friends from 
+	 the addFriends page without navigating to another page in between adds.  Additionally, we should work to implement some kind of success/error message so that the user
+	 can more easily determine if they were successful in adding a new friend.
+ 
+Output:  None if only one friend is added in a row.  After a second or third add friend without navigating to another page and back: "Cannot POST /addFriends/addFriends/add".
