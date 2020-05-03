@@ -369,5 +369,30 @@ app.get('/addSchedule', function(req, res) {
 	})
 })
 
+app.post('/addSchedule', function(req, res) {
+	var sched_img = req.body.myfile;
+
+	var query = "update users set image_url = '" + sched_img + "' where email = '" + inputEmail.toString() + "';";
+
+	db.any(query)
+		.then(function (rows) {
+			console.log(new_img);
+              res.render('pages/home',{
+				my_title: 'Home Page',
+				result:rows
+              })
+	})
+	.catch(function (err) {
+		// display error message in case an error
+		console.log('error', err);
+		res.render('pages/home',{
+			my_title: "error",
+			data: '',
+			color: '',
+			color_msg: ''
+			})
+		})
+  });
+
 app.listen(3000);
 console.log('3000 is the magic port');
