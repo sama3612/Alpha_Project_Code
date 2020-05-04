@@ -1,0 +1,12 @@
+User Authentication
+
+We tested to make sure each of the following cases was working functionally when testing the user authentication page:
+- create new user
+- login with correct username/password
+- create new user errors:
+  - error when using an email that has already been taken
+  - error when passwords don't match when creating new user credentials
+  - error when passwords don't satisfy all the necessary criteria
+- error when logging in with an email that doesn't exist
+- error when logging in with password that doesn't match
+- error when one or more fields are empty
