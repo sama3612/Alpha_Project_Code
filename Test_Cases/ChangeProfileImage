@@ -1,0 +1,6 @@
+Tested the following on the profile page:
+
+ - Loading the correct information for each user
+ - Changing the image successfully
+ - New user with default profile image
+ - Logging out and signing back in with different user
