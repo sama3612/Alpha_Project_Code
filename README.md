@@ -1,2 +1,4 @@
 # Alpha_Project_Code
 All code for application for Alpha Group
+
+This project was aimed to create an app that made it easy and convenient to plan small informal meetings in people’s busy days. We found that as busy college students, we had trouble hanging out with friends during the day between classes and for lunch. Link is the solution we created to solve this. It provides a platform where you can share your schedule and compare it with your friend’s schedule side by side. You can search for and add friends with their emails and easily schedule time with your friends. Link allows you to connect with friends, even if your friends have completely different schedules than you. It works best when trying to find small pockets in the day where you and your friends have some free time and just wanna hang out. Our target market is high school and college students. 
