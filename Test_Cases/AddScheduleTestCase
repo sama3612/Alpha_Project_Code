@@ -1,0 +1,7 @@
+Test Case:  Add new schedule
+
+Result:  New schedules were able to be added for users who did not have an existing schedule as well as for
+         those who did. For the users who had an existing schedule, the new schedule would overwrite it. Once 
+         a user has uploaded their schedule, they are able to see it by navigating to the my schedule page.
+ 
+Output:  None.
