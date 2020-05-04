@@ -276,7 +276,6 @@ app.post('/profile/change', function(req, res) {
 
 	db.any(query)
 		.then(function (rows) {
-			console.log(new_img);
               res.render('pages/home',{
 				my_title: 'Home Page',
 				result:rows
@@ -376,7 +375,6 @@ app.post('/addSchedule', function(req, res) {
 
 	db.any(query)
 		.then(function (rows) {
-			console.log(new_img);
               res.render('pages/home',{
 				my_title: 'Home Page',
 				result:rows
