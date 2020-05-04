@@ -369,15 +369,14 @@ app.get('/addSchedule', function(req, res) {
 	})
 })
 
-app.post('/addSchedule', function(req, res) {
+app.post('/addSchedule/add', function(req, res) {
 	var sched_img = req.body.myfile;
 
 	var query = "update users set image_url = '" + sched_img + "' where email = '" + inputEmail.toString() + "';";
 
 	db.any(query)
 		.then(function (rows) {
-			console.log(new_img);
-              res.render('pages/home',{
+            res.render('pages/home',{
 				my_title: 'Home Page',
 				result:rows
               })
